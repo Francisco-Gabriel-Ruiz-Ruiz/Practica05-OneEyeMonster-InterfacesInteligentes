@@ -10,6 +10,12 @@ public class GramophoneMusic : MonoBehaviour
     public AudioClip gramophoneClip;
     private AudioSource audioSource;
 
+    [Header("Easter Egg Musical")]
+    [Tooltip("Clip especial que sonará al alcanzar el umbral de puntos")]
+    public AudioClip easterEggClip;
+    [Tooltip("Cantidad de puntos necesaria para activar el easter egg")]
+    public int easterEggPointsThreshold = 10;
+
     [Header("Rotación en Eje Y")]
     [Tooltip("Velocidad en grados por segundo")]
     public float rotationSpeed = 90f; 
@@ -27,37 +33,53 @@ public class GramophoneMusic : MonoBehaviour
 
         if (gramophoneClip == null)
         {
-            Debug.LogWarning(name + ": ¡No hay AudioClip asignado en el inspector!");
+            Debug.LogWarning(name + ": ¡No hay AudioClip estándar asignado en el inspector!");
         }
     }
 
     void Update()
     {
-        // Si rotateOnlyWhenPlaying está activo, solo rota si el audio se está reproduciendo
         if (rotateOnlyWhenPlaying && (audioSource == null || !audioSource.isPlaying))
         {
             return;
         }
 
-        // Rota sobre su propio eje Y local multiplicando por deltaTime para que sea fluido
         transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f, Space.Self);
     }
 
     void OnPointerEnter() 
     {
+        PlayMusic();
+        
         if (player != null)
         {
             player.AddPoints(rewardForCollecting);
         }
+    }
 
-        PlayMusic();
+    void OnPointerExit() 
+    {
+        
     }
 
     private void PlayMusic()
     {
-        if (audioSource != null && gramophoneClip != null)
+        if (audioSource == null) return;
+
+        // Selección por defecto: música normal
+        AudioClip clipToPlay = gramophoneClip;
+
+        // Si el jugador cumple o supera el umbral y hay clip asignado, se reproduce el easter egg
+        // Nota: Asegúrate de que tu script PlayerPoints tenga la variable o método público para leer los puntos
+        // (ej. 'player.points' o 'player.currentPoints' o 'player.GetPoints()')
+        if (player != null && player.GetPoints() >= easterEggPointsThreshold && easterEggClip != null)
         {
-            audioSource.clip = gramophoneClip;
+            clipToPlay = easterEggClip;
+        }
+
+        if (clipToPlay != null)
+        {
+            audioSource.clip = clipToPlay;
             audioSource.Play();
         }
     }

@@ -22,6 +22,10 @@ public class PlayerPoints : MonoBehaviour
         UpdateText();
     }
 
+    public int GetPoints() {
+        return points;
+    }
+
     void UpdateText() {
         textToDisplay.text = points.ToString();
     }
