@@ -18,29 +18,26 @@ public class TelevisionEasterEgg : MonoBehaviour
     public VideoClip videoClip;
     public int requiredPoints = 5;
 
-    [Header("Comportamiento")]
-    [Tooltip("¿Ocultar o apagar el cubo de la pantalla hasta que empiece el vídeo?")]
-    public bool hideScreenUntilPlay = true;
-    [Tooltip("Si se desmarca, el vídeo no se corta al apartar la mirada")]
-    public bool stopOnPointerExit = false;
+    [Header("Comportamiento de Pausa")]
+    [Tooltip("Si está activo, al dejar de mirar el cubo se oculta y vuelve a verse el texto")]
+    public bool hideScreenOnPause = false;
 
     private VideoPlayer videoPlayer;
+    private bool isPrepared = false;
 
     void Awake()
     {
         videoPlayer = GetComponent<VideoPlayer>();
 
-        // Si no se asignó en el inspector, intenta buscar el TextMeshPro en los hijos
         if (worldText == null)
         {
             worldText = GetComponentInChildren<TextMeshPro>();
         }
 
-        // Configuración inicial del VideoPlayer hacia el MeshRenderer del cubo
         ConfigureVideoPlayer();
 
         // Ocultar la pantalla inicialmente si está marcada la opción
-        if (hideScreenUntilPlay && screenMeshRenderer != null)
+        if (hideScreenOnPause && screenMeshRenderer != null)
         {
             screenMeshRenderer.enabled = false;
         }
@@ -55,8 +52,7 @@ public class TelevisionEasterEgg : MonoBehaviour
         {
             videoPlayer.renderMode = VideoRenderMode.MaterialOverride;
             videoPlayer.targetMaterialRenderer = screenMeshRenderer;
-            // Detecta automáticamente la propiedad de textura del material del cubo
-            // (funciona tanto para Standard _MainTex como para URP _BaseMap)
+
             Material mat = screenMeshRenderer.sharedMaterial;
             if (mat != null && mat.HasProperty("_BaseMap"))
             {
@@ -77,57 +73,64 @@ public class TelevisionEasterEgg : MonoBehaviour
             return;
         }
 
-        // Comprueba los puntos con el método GetPoints()
         if (player.GetPoints() >= requiredPoints)
         {
-            PlayScreenVideo();
+            ResumeOrPlayVideo();
         }
     }
 
     public void OnPointerExit()
     {
-        if (stopOnPointerExit)
-        {
-            StopScreenVideo();
-        }
+        PauseVideo();
     }
 
-    private void PlayScreenVideo()
+    private void ResumeOrPlayVideo()
     {
         if (videoPlayer == null || videoClip == null) return;
 
-        // Ocultar el texto de números para que no estorbe
+        // Ocultar el texto de números para mostrar la imagen
         if (worldText != null)
         {
             worldText.enabled = false;
         }
 
-        // Mostrar el cubo de la pantalla
         if (screenMeshRenderer != null)
         {
             screenMeshRenderer.enabled = true;
         }
 
-        videoPlayer.clip = videoClip;
+        // Si es la primera vez que se reproduce
+        if (!isPrepared)
+        {
+            videoPlayer.clip = videoClip;
+            isPrepared = true;
+        }
+
+        // Reanuda la reproducción desde el frame en que se quedó
         videoPlayer.Play();
     }
 
-    private void StopScreenVideo()
+    private void PauseVideo()
     {
+        // En lugar de videoPlayer.Stop(), usamos Pause() para congelar el frame actual
         if (videoPlayer != null && videoPlayer.isPlaying)
         {
-            videoPlayer.Stop();
+            videoPlayer.Pause();
         }
 
-        // Restaurar texto y ocultar pantalla
-        if (worldText != null)
+        // Si quieres que el texto regrese mientras está en pausa:
+        if (hideScreenOnPause)
         {
-            worldText.enabled = true;
-        }
+            if (worldText != null)
+            {
+                worldText.enabled = true;
+            }
 
-        if (hideScreenUntilPlay && screenMeshRenderer != null)
-        {
-            screenMeshRenderer.enabled = false;
+            if (screenMeshRenderer != null)
+            {
+                screenMeshRenderer.enabled = false;
+            }
         }
+        // Si hideScreenOnPause es false, la pantalla se queda visible congelada en ese frame exacto
     }
 }
