@@ -62,12 +62,9 @@ public class KinematicPlayerMovement : MonoBehaviour
         // Prioridad: Teclado -> Mando -> Mirada
         if (keyboardInput.sqrMagnitude > 0.05f) {
             targetDirection = forward * keyboardInput.y + right * keyboardInput.x;
-        }
-        else if (stickInput.sqrMagnitude > 0.05f) {
+        } else if (stickInput.sqrMagnitude > 0.05f) {
             targetDirection = forward * stickInput.y + right * stickInput.x;
-        }
-        // 3. Movimiento con la vista (si no se usa teclado ni mando)
-        else if (useGazeMovement) {
+        } else if (useGazeMovement) { // 3. Movimiento con la vista (si no se usa teclado ni mando)
             float pitch = cameraTransform.eulerAngles.x;
             if (pitch > 180f) {
                 pitch -= 360f;
@@ -76,7 +73,6 @@ public class KinematicPlayerMovement : MonoBehaviour
                 targetDirection = forward;
             }
         }
-
         calculatedMovement = targetDirection * moveSpeed;
     }
 
