@@ -2,15 +2,20 @@ using UnityEngine;
 
 public class OneEyeMonsterReward : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
+    public PlayerPoints player;
+    public int rewardForCollecting = 1;
+
+    void Start() {
+        if (!player) {
+            Debug.LogError(name + ": ¡No hay script PlayerPoints asignado!");
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    void OnPointerEnter() {
+        player.AddPoints(rewardForCollecting);
+    }
+
+    void OnPointerExit() {
+        Destroy(gameObject);
     }
 }
