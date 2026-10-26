@@ -1,77 +1,62 @@
 using UnityEngine;
 
-
 public class GramophoneMusic : MonoBehaviour
 {
-    public PlayerPoints player;
-    public int rewardForCollecting = 1;
-    
-    public AudioClip gramophoneClip;
-    private AudioSource audioSource;
-
-    public AudioClip easterEggClip;
-    public int easterEggPointsThreshold = 10;
-
-    public float rotationSpeed = 90f; 
+    public int easterEggPointsThreshold = 0;
+    public float rotationSpeed = 90f;
     public bool rotateOnlyWhenPlaying = false;
 
-    void Start() 
-    {
-        audioSource = GetComponent<AudioSource>();
+    public PlayerPoints player;
+    public int rewardForCollecting = 1;
+    public AudioClip gramophoneClip;
+    public AudioClip easterEggClip;
 
-        if (!player) 
-        {
+    private AudioSource audioSource;
+
+    void Start() {
+        audioSource = GetComponent<AudioSource>();
+        if (!audioSource) {
+            Debug.LogError(name + ": ¡Este GameObject no tiene un componente AudioSource!");
+        }
+        if (!player) {
             Debug.LogError(name + ": ¡No hay script PlayerPoints asignado!");
         }
-
-        if (gramophoneClip == null)
-        {
+        if (!gramophoneClip) {
             Debug.LogWarning(name + ": ¡No hay AudioClip estándar asignado en el inspector!");
+        }
+        if (!easterEggClip) {
+            Debug.LogWarning(name + ": ¡No hay AudioClip Easter Egg asignado en el inspector!");
         }
     }
 
-    void Update()
-    {
-        if (rotateOnlyWhenPlaying && (audioSource == null || !audioSource.isPlaying))
-        {
+    void Update() {
+        if (rotateOnlyWhenPlaying && (!audioSource || !audioSource.isPlaying)) {
             return;
         }
-
         transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f, Space.Self);
     }
 
-    void OnPointerEnter() 
-    {
+    void OnPointerEnter() {
         PlayMusic();
-        
-        if (player != null)
-        {
+        if (player != null) {
             player.AddPoints(rewardForCollecting);
         }
     }
 
-    void OnPointerExit() 
-    {
-        
+    void OnPointerExit() {
+        // Do nothing.
     }
 
-    private void PlayMusic()
-    {
-        if (audioSource == null) return;
-
-        // Selección por defecto: música normal
+    private void PlayMusic() {
+        if (!audioSource) {
+            return;
+        }
         AudioClip clipToPlay = gramophoneClip;
-
         // Si el jugador cumple o supera el umbral y hay clip asignado, se reproduce el easter egg
-        // Nota: Asegúrate de que tu script PlayerPoints tenga la variable o método público para leer los puntos
-        // (ej. 'player.points' o 'player.currentPoints' o 'player.GetPoints()')
-        if (player != null && player.GetPoints() <= easterEggPointsThreshold && easterEggClip != null)
-        {
+        if (player != null && player.GetPoints() <= easterEggPointsThreshold && easterEggClip != null) {
             clipToPlay = easterEggClip;
         }
-
-        if (clipToPlay != null)
-        {
+        if (clipToPlay != null) {
             audioSource.clip = clipToPlay;
             audioSource.Play();
         }
