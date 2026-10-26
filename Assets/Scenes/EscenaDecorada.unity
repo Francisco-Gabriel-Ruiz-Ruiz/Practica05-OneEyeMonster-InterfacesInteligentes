@@ -12275,13 +12275,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36e0a23673d786d45ba6368af53dea25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GramophoneMusic
+  easterEggPointsThreshold: 0
+  rotationSpeed: 90
+  rotateOnlyWhenPlaying: 1
   player: {fileID: 856276276}
   rewardForCollecting: 0
   gramophoneClip: {fileID: 8300000, guid: 67383a021158109438aac8200c98a2bf, type: 3}
   easterEggClip: {fileID: 8300000, guid: 13ab930468b5ba44381fb832f822392c, type: 3}
-  easterEggPointsThreshold: 0
-  rotationSpeed: 90
-  rotateOnlyWhenPlaying: 1
 --- !u!82 &1092005987
 AudioSource:
   m_ObjectHideFlags: 0
@@ -13700,7 +13700,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3556849761964844690, guid: b11f02bf53659d14d80102a35290923d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.7462
+      value: 1.8022
       objectReference: {fileID: 0}
     - target: {fileID: 3556849761964844690, guid: b11f02bf53659d14d80102a35290923d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -22587,7 +22587,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.004, y: 0.402, z: 0.225}
-  m_LocalScale: {x: 0.56, y: 0.52, z: -0.01}
+  m_LocalScale: {x: 0.56, y: 0.52, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1835211247}
@@ -23212,6 +23212,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameObject
       objectReference: {fileID: 0}
+    - target: {fileID: 1296762339289023318, guid: f7e794e4441edd947b2806d85abaa597, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1768538464509811040, guid: f7e794e4441edd947b2806d85abaa597, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.30241
@@ -23280,9 +23284,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 120
       objectReference: {fileID: 0}
+    - target: {fileID: 3154566698993890690, guid: f7e794e4441edd947b2806d85abaa597, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5013392977267911116, guid: f7e794e4441edd947b2806d85abaa597, type: 3}
       propertyPath: m_Intensity
       value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 6514826734676016820, guid: f7e794e4441edd947b2806d85abaa597, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.004
       objectReference: {fileID: 0}
     - target: {fileID: 7101117847312304158, guid: f7e794e4441edd947b2806d85abaa597, type: 3}
       propertyPath: m_LocalPosition.y
