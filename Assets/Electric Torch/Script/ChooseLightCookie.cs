@@ -21,7 +21,7 @@ public class ChooseLightCookie : MonoBehaviour
         _thisLight = GetComponent<Light>();
     }
 
-     void Start()
+    void Start()
     {
         _keyCode = (KeyCode)System.Enum.Parse(typeof(KeyCode), chooseKeyForCookie);
     }
@@ -33,14 +33,14 @@ public class ChooseLightCookie : MonoBehaviour
         {
             _keyCode = (KeyCode)System.Enum.Parse(typeof(KeyCode), chooseKeyForCookie);
         }
-        //
 
         ChooseCookie();
     }
 
     void ChooseCookie()
-    {/*
-        if (Input.GetKeyDown(_keyCode))
+    {
+        // Descomentado para quitar el aviso CS0414 y permitir cambiar de cookie
+        if (lightCookie.Count > 0 && Input.GetKeyDown(_keyCode))
         {
             _scroolList += 1;
 
@@ -49,8 +49,10 @@ public class ChooseLightCookie : MonoBehaviour
                 _scroolList = 0;
             }
 
-            _thisLight.cookie = lightCookie[_scroolList];
-
+            if (_thisLight != null)
+            {
+                _thisLight.cookie = lightCookie[_scroolList];
+            }
         }
-    */}
+    }
 }
