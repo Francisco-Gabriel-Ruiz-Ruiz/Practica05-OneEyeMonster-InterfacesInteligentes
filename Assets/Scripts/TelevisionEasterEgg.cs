@@ -2,24 +2,22 @@ using UnityEngine;
 using UnityEngine.Video;
 using TMPro;
 
-[RequireComponent(typeof(VideoPlayer))]
+
 public class TelevisionEasterEgg : MonoBehaviour
 {
-    [Header("Referencias del Jugador y Texto")]
+    
     public PlayerPoints player;
-    [Tooltip("El texto 3D que muestra los puntos o el mensaje inicial")]
+    
     public TextMeshPro worldText;
 
-    [Header("Pantalla Hija (Cubo)")]
-    [Tooltip("Arrastra aquí el cubo 3D que creaste como hijo")]
+    
+    
     public MeshRenderer screenMeshRenderer;
 
-    [Header("Configuración del Vídeo")]
+    
     public VideoClip videoClip;
     public int requiredPoints = 5;
 
-    [Header("Comportamiento de Pausa")]
-    [Tooltip("Si está activo, al dejar de mirar el cubo se oculta y vuelve a verse el texto")]
     public bool hideScreenOnPause = false;
 
     private VideoPlayer videoPlayer;
@@ -73,7 +71,7 @@ public class TelevisionEasterEgg : MonoBehaviour
             return;
         }
 
-        if (player.GetPoints() >= requiredPoints)
+        if (player.GetPoints() <= requiredPoints)
         {
             ResumeOrPlayVideo();
         }

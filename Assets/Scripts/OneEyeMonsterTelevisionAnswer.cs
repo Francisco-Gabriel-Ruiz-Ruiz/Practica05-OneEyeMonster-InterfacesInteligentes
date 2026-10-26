@@ -1,11 +1,13 @@
 using UnityEngine;
 
-public class OneEyeMonsterAnswer : MonoBehaviour
+public class OneEyeMonsterTelevisionAnswer : MonoBehaviour
 {
     public TelevisionNotificator televisionNotificator;
 
     private Renderer[] visualRenderers;
     private Collider[] colliders;
+
+    private bool isObjectVisible = false;
 
     void Awake() {
         visualRenderers = GetComponentsInChildren<Renderer>(true);
@@ -24,6 +26,10 @@ public class OneEyeMonsterAnswer : MonoBehaviour
         }
     }
 
+    public bool GetIsObjectVisible() {
+        return isObjectVisible;
+    }
+
     void OnDestroy() { // Ahorramos memoria
         if (!televisionNotificator) {
             televisionNotificator.OnGaze -= Activate;
@@ -36,6 +42,7 @@ public class OneEyeMonsterAnswer : MonoBehaviour
     }
 
     private void SetVisibility(bool state) {
+        isObjectVisible = state;
         Debug.Log("ejecutando setvisibiliy=" + state);
         if (visualRenderers != null) {
             foreach (var renderer in visualRenderers) {

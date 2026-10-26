@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerPoints : MonoBehaviour
 {
+    public int startingPoints = 0;
     public TMP_Text textToDisplay;
     private int points;
 
@@ -10,7 +11,7 @@ public class PlayerPoints : MonoBehaviour
         if (!textToDisplay) {
             Debug.LogWarning(name + ": ¡No hay texto asignado para mostrar los puntos!");
         }
-        points = 0;
+        points = startingPoints;
     }
 
     public void AddPoints(int pointsToAdd) {
@@ -19,6 +20,15 @@ public class PlayerPoints : MonoBehaviour
         }
         Debug.Log(name + ": Tengo " + points + " puntos, sumando " + pointsToAdd + "...");
         points += pointsToAdd;
+        UpdateText();
+    }
+
+    public void TakePoints(int pointsToTake) {
+        if (pointsToTake <= 0) {
+            Debug.LogWarning(name + ": ¡Se están intentando restar puntos igual a 0 o negativos!");
+        }
+        Debug.Log(name + ": Tengo " + points + " puntos, restando " + pointsToTake + "...");
+        points -= pointsToTake;
         UpdateText();
     }
 

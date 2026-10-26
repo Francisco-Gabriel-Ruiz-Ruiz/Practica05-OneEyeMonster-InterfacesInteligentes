@@ -12,7 +12,7 @@ public class OneEyeMonsterReward : MonoBehaviour
     }
 
     void OnPointerEnter() {
-        player.AddPoints(rewardForCollecting);
+        player.TakePoints(rewardForCollecting);
     }
 
     void OnPointerExit() {

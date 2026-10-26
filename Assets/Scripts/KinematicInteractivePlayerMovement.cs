@@ -4,17 +4,17 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class KinematicInteractivePlayerMovement : MonoBehaviour
 {
-    [Header("Ajustes de Movimiento")]
+    
     public float moveSpeed = 3.5f;
     public float gravity = -9.81f;
     public Transform cameraTransform;
 
-    [Header("Controles")]
+    
     public bool useKeyboardMovement = true;
     public bool useGazeMovement = true;
     public float gazeAngleThreshold = 20.0f;
 
-    [Header("Físicas de Empuje")]
+    
     public float pushPower = 2.0f; // Fuerza con la que empujas objetos
 
     private CharacterController controller;
