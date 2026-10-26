@@ -6,12 +6,14 @@ public class OneEyeMonsterTelevisionAnswer : MonoBehaviour
 
     private Renderer[] visualRenderers;
     private Collider[] colliders;
+    private Light[] lights;
 
     private bool isObjectVisible = false;
 
     void Awake() {
         visualRenderers = GetComponentsInChildren<Renderer>(true);
         colliders = GetComponentsInChildren<Collider>(true);
+        lights = GetComponentsInChildren<Light>(true);
         SetVisibility(false);
     }
 
@@ -30,8 +32,9 @@ public class OneEyeMonsterTelevisionAnswer : MonoBehaviour
         return isObjectVisible;
     }
 
-    void OnDestroy() { // Ahorramos memoria
-        if (!televisionNotificator) {
+    void OnDestroy() {
+        // Desuscribir si existe la referencia
+        if (televisionNotificator != null) {
             televisionNotificator.OnGaze -= Activate;
         }
     }
@@ -43,7 +46,8 @@ public class OneEyeMonsterTelevisionAnswer : MonoBehaviour
 
     private void SetVisibility(bool state) {
         isObjectVisible = state;
-        Debug.Log("ejecutando setvisibiliy=" + state);
+        Debug.Log(name + ": Ejecutando SetVisibility = " + state);
+
         if (visualRenderers != null) {
             foreach (var renderer in visualRenderers) {
                 if (renderer != null) {
@@ -55,6 +59,13 @@ public class OneEyeMonsterTelevisionAnswer : MonoBehaviour
             foreach (var collider in colliders) {
                 if (collider != null) {
                     collider.enabled = state;
+                }
+            }
+        }
+        if (lights != null) {
+            foreach (var lightComp in lights) {
+                if (lightComp != null) {
+                    lightComp.enabled = state;
                 }
             }
         }
