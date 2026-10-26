@@ -39,7 +39,7 @@ public class GramophoneMusic : MonoBehaviour
     void OnPointerEnter() {
         PlayMusic();
         if (player != null) {
-            player.AddPoints(rewardForCollecting);
+            player.TakePoints(rewardForCollecting);
         }
     }
 
@@ -51,14 +51,33 @@ public class GramophoneMusic : MonoBehaviour
         if (!audioSource) {
             return;
         }
+
         AudioClip clipToPlay = gramophoneClip;
-        // Si el jugador cumple o supera el umbral y hay clip asignado, se reproduce el easter egg
-        if (player != null && player.GetPoints() <= easterEggPointsThreshold && easterEggClip != null) {
+            // Determinar si aplica el Easter Egg
+        bool shouldPlayEasterEgg = (player != null) && (player.GetPoints() <= easterEggPointsThreshold) && (easterEggClip != null);
+        if (shouldPlayEasterEgg) {
             clipToPlay = easterEggClip;
         }
-        if (clipToPlay != null) {
-            audioSource.clip = clipToPlay;
-            audioSource.Play();
+        
+        if (!clipToPlay) {
+            return;
         }
+
+        // Si ya está sonando algo
+        if (audioSource.isPlaying) {
+            // Si el que va a sonar es el Easter Egg, pero ya estaba sonando el Easter Egg, no reiniciar
+            if (shouldPlayEasterEgg && audioSource.clip == easterEggClip) {
+                return;
+            }
+
+            // Si NO es Easter Egg (es música normal), no sobreescribir lo que esté sonando
+            if (!shouldPlayEasterEgg) {
+                return;
+            }
+        }
+
+        // Se asigna y reproduce (solo se ejecuta si no estaba sonando nada, o si el Easter Egg interrumpe la música estándar)
+        audioSource.clip = clipToPlay;
+        audioSource.Play();
     }
 }
