@@ -12,6 +12,7 @@ public class GramophoneMusic : MonoBehaviour
     public AudioClip easterEggClip;
 
     private AudioSource audioSource;
+    private bool alreadyGivenPoints;
 
     void Start() {
         audioSource = GetComponent<AudioSource>();
@@ -27,6 +28,7 @@ public class GramophoneMusic : MonoBehaviour
         if (!easterEggClip) {
             Debug.LogWarning(name + ": ¡No hay AudioClip Easter Egg asignado en el inspector!");
         }
+        alreadyGivenPoints = false;
     }
 
     void Update() {
@@ -38,8 +40,9 @@ public class GramophoneMusic : MonoBehaviour
 
     void OnPointerEnter() {
         PlayMusic();
-        if (player != null) {
+        if (!alreadyGivenPoints && player != null) {
             player.TakePoints(rewardForCollecting);
+            alreadyGivenPoints = true;
         }
     }
 
@@ -58,7 +61,7 @@ public class GramophoneMusic : MonoBehaviour
         if (shouldPlayEasterEgg) {
             clipToPlay = easterEggClip;
         }
-        
+
         if (!clipToPlay) {
             return;
         }
