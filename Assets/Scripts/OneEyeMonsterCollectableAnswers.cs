@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class OneEyeMonsterCollectableAnswers : MonoBehaviour
 {
-    public float speed = 1;
+    public float speed = 1f;
+    public float rotationSpeed = 90f;
+    public float boundaryRespectPlayer = 2f; // Distancia mínima de seguridad respecto al jugador
 
     public GameObject playerToChase;
 
@@ -66,7 +68,6 @@ public class OneEyeMonsterCollectableAnswers : MonoBehaviour
         Debug.Log(name + ": Me he activado.");
         SetVisibility(true);
 
-        // Al hacerse visible, nos suscribimos al titán para la recolección automática
         if (!isTitanSubscribed && titanNotificator != null) {
             titanNotificator.OnGaze += MoveTowardsPlayer;
             isTitanSubscribed = true;
@@ -81,21 +82,39 @@ public class OneEyeMonsterCollectableAnswers : MonoBehaviour
 
     void Update() {
         moveDirection = Vector3.zero;
-        if (moveTowardsPlayerFlag) {
-            Vector3 direction = playerToChase.transform.position - transform.position;
-            moveDirection = direction.normalized * speed;
+
+        if (moveTowardsPlayerFlag && playerToChase != null) {
+            Vector3 vectorToPlayer = playerToChase.transform.position - transform.position;
+            float distance = vectorToPlayer.magnitude;
+
+            // Solo calcula avance si supera la distancia de seguridad
+            if (distance > boundaryRespectPlayer) {
+                moveDirection = vectorToPlayer.normalized * speed;
+            }
         }
     }
 
     void FixedUpdate() {
-        if (!moveTowardsPlayerFlag) {
+        if (!moveTowardsPlayerFlag || !playerToChase) {
             return;
         }
-        Vector3 finalMoveDirection = moveDirection * Time.fixedDeltaTime;
-        myRigidbody.MovePosition(myRigidbody.position + finalMoveDirection);
+
+        // Calculamos la dirección hacia el objetivo ignorando la altura (eje Y) para que no se incline
+        Vector3 lookDirection = playerToChase.transform.position - transform.position;
+        lookDirection.y = 0f;
+
+        if (lookDirection != Vector3.zero) {
+            Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
+            myRigidbody.MoveRotation(Quaternion.Slerp(myRigidbody.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime));
+        }
+
+        if (moveDirection != Vector3.zero) {
+            Vector3 finalMoveDirection = moveDirection * Time.fixedDeltaTime;
+            myRigidbody.MovePosition(myRigidbody.position + finalMoveDirection);
+        }
     }
 
-  private void UnsubscribeAll() {
+    private void UnsubscribeAll() {
         if (televisionNotificator != null) {
             televisionNotificator.OnGaze -= Activate;
         }
