@@ -257,7 +257,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2002723830714364660}
-  - component: {fileID: 8416673300490442344}
   - component: {fileID: 3342398324252477987}
   - component: {fileID: 57246797017155999}
   - component: {fileID: 4171174601098153769}
@@ -284,23 +283,6 @@ Transform:
   - {fileID: 2824892078364335464}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!114 &8416673300490442344
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6176174045994647572}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e664204708125f34bbc3063dd386d2de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KinematicPlayerMovement
-  moveSpeed: 3.5
-  cameraTransform: {fileID: 2824892078364335464}
-  useKeyboardMovement: 0
-  useGazeMovement: 1
-  gazeAngleThreshold: 20
 --- !u!143 &3342398324252477987
 CharacterController:
   m_ObjectHideFlags: 0
