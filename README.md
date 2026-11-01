@@ -2,6 +2,7 @@
 
 * **Autores:**
   * Bruno Morales Hernández — alu0101664309@ull.edu.es
+  * Adriel Reyes Suárez — alu0101640136@ull.edu.es
   * Francisco Gabriel Ruiz Ruiz — alu0101618586@ull.edu.es
 * **Asignatura:** Interfaces Inteligentes
 * **Curso:** 4.º Curso — Ingeniería Informática, ULL — 2026/2027
@@ -40,7 +41,7 @@ El repositorio contiene el proyecto de Unity, filtrando las carpetas autogenerad
 │   ├── Musica/                       # Clips de audio y el vídeo de recompensa
 │   ├── HelloCardboard 1.36.0/        # Ejemplo de Google Cardboard (cámara y arranque)
 │   └── ...                           # Assets importados (Fantasy Forest, Vintage Living Room, etc.)
-├── GitImages/                        # GIFs y capturas de pantalla de este README
+├── docs/gifs/                        # GIFs y capturas de pantalla de este README
 ├── Packages/                         # Manifiesto de paquetes de Unity
 ├── ProjectSettings/                  # Configuración del motor
 └── README.md
@@ -112,13 +113,13 @@ Para que el jugador vea a través del bosque, que debe atravesar para llegar al 
 
 Se añadieron colliders a casi todos los prefabs de **VINTAGE LIVING ROOM 3D GAME PACK**. La finalidad es que los One Eye Monster coleccionables no puedan recolectarse a través de paredes u objetos. Por ejemplo, la lámpara de pie tiene colliders en la pantalla y en la base:
 
-![Colliders de la lámpara](GitImages/colliders-lampara.png)
+![Colliders de la lámpara](docs/imgs/colliders-lampara.png)
 
 *Colliders añadidos a la lámpara de pie.*
 
 Gracias a esto, uno de los muñecos solo puede verse y recolectarse si se mira desde abajo de la lámpara:
 
-![One Eye Monster escondido bajo la lámpara](GitImages/oem-bajo-lampara.png)
+![One Eye Monster escondido bajo la lámpara](docs/imgs/oem-bajo-lampara.png)
 
 *Muñeco escondido bajo la pantalla de la lámpara, accesible solo desde abajo.*
 
@@ -131,7 +132,7 @@ Las restricciones del Cloth se pintaron con la herramienta de pintado de restric
 * **Max distance 0 (rojo):** puntos anclados al sillón, que no se mueven.
 * **Max distance 0.5 (verde):** puntos sueltos, que sí caen con la tela.
 
-![Pintado de restricciones del Cloth](GitImages/cloth-panuelo.png)
+![Pintado de restricciones del Cloth](docs/imgs/cloth-panuelo.png)
 
 *Restricciones del pañuelo: rojo anclado, verde suelto.*
 
@@ -184,10 +185,14 @@ Los parámetros configurables desde el Inspector son:
 | `gazeAngleThreshold` | 20 | Ángulo mínimo de inclinación para avanzar mirando al suelo. |
 | `pushPower` | 2 | Fuerza con la que el jugador empuja los objetos. |
 
-* **Demostración en GIF:**
-![Movimiento del jugador con teclado, mando y mirada](GitImages/movimiento-jugador.gif)
+* **Demostración en GIF (teclado):**
+![Movimiento del jugador con teclado](docs/gifs/moviemiento-teclado.gif)
 
-> **Nota para el profesor (borrar):** Se debería ver al jugador caminando con WASD, después con el stick del mando, y por último mirando hacia el suelo (a más de 20º) para avanzar sin tocar nada. Se puede enseñar también cómo se empuja una silla al chocar con ella.
+* **Demostración en GIF (mando):**
+![Movimiento del jugador con mando](docs/gifs/moviemiento-mando.gif)
+
+* **Demostración en GIF (mirada):**
+![Movimiento del jugador con la mirada](docs/gifs/movimiento-mirada.gif)
 
 ### 4.3 KinematicPlayerMovement.cs (versión anterior)
 
@@ -235,9 +240,7 @@ Para que la mirada tenga que mantenerse durante un tiempo y no sea un simple roc
 Gracias a `hasGazedOnce`, el evento solo se dispara una vez por objeto. La espera de tres segundos da opción a elegir: el jugador puede mirar sin querer y apartar la vista sin consecuencias.
 
 * **Demostración en GIF:**
-![Mirada a la televisión durante tres segundos](GitImages/tv-mirada-3-segundos.gif)
-
-> **Nota para el profesor (borrar):** Se debería ver la televisión con el número 7. Primero se mira y se aparta antes de los 3 segundos (no aparecen muñecos). Después se mira durante 3 segundos completos y aparecen los siete One Eye Monster por la casa.
+![Mirada a la televisión durante tres segundos](docs/gifs/television-3-segundos.gif)
 
 ### 6.3 Respuestas de los One Eye Monster
 
@@ -252,9 +255,7 @@ Al inicio, `Awake()` oculta el muñeco y desactiva sus colliders. Así no puede 
 **Por qué mirar primero al titán no tiene efecto:** el titán solo tiene como suscriptores a los muñecos que ya se han activado. Si el jugador mira al titán antes de haber mirado la televisión, no hay ningún muñeco suscrito a su evento, por lo que ningún muñeco escondido recibe el aviso ni empieza a perseguir al jugador.
 
 * **Demostración en GIF:**
-![Activación de los muñecos y persecución del titán](GitImages/oem-activacion-persecucion.gif)
-
-> **Nota para el profesor (borrar):** Se debería ver que, al mirar al titán antes que a la televisión, no pasa nada con los muñecos. Después se mira la televisión, aparecen los muñecos, y al mirar al titán empiezan a perseguir al jugador.
+![Activación de los muñecos y persecución del titán](docs/gifs/titan-persecucion.gif)
 
 ---
 
@@ -270,9 +271,7 @@ La recolección se hace al salir de la mirada, y no al entrar, para que se pueda
 Los muñecos tienen un **Capsule Collider** y un **Rigidbody** con `isKinematic` activado. Así, la física no los hace caer ni los empuja, y solo se mueven por código.
 
 * **Demostración en GIF:**
-![Recolección de un One Eye Monster y bajada del contador](GitImages/recoleccion-oem.gif)
-
-> **Nota para el profesor (borrar):** Se debería ver el contador de la televisión con un número (por ejemplo 6). Al mirar un muñeco, el contador baja a 5 y el muñeco sigue visible. Al apartar la mirada, el muñeco desaparece.
+![Recolección de un One Eye Monster y bajada del contador](docs/gifs/recoleccionOEM.gif)
 
 ---
 
@@ -317,9 +316,7 @@ El componente **VideoPlayer** de Unity no se vio en clase. Sus campos principale
 * **`isPlaying`:** indica si el vídeo se está reproduciendo en ese momento.
 
 * **Demostración en GIF:**
-![Vídeo de recompensa al llegar a 0](GitImages/video-recompensa.gif)
-
-> **Nota para el profesor (borrar):** Se debería ver el contador a 0. Al mirar la televisión, aparece la pantalla con el vídeo y la luz se enciende. Al apartar la mirada, el vídeo se queda pausado en el mismo fotograma. Al volver a mirar, continúa desde ahí.
+![Vídeo de recompensa al llegar a 0](docs/gifs/recompensaTV.gif)
 
 ---
 
@@ -349,14 +346,9 @@ La elección se hace en `PlayMusic()`. Si el contador de la televisión está en
 Al mirar el gramófono se aplica una variación de puntos (`player.TakePoints(rewardForCollecting)`), pero solo la primera vez, gracias a la variable `alreadyGivenPoints`. Durante el desarrollo se pensó en usar el gramófono como bonus de puntos. Finalmente se dejó en **0 puntos** (`rewardForCollecting = 0`), así que el juego muestra un aviso en la consola de Unity. Ese aviso es esperado: `TakePoints()` avisa cuando se intenta restar 0 puntos.
 
 * **Demostración en GIF (música normal):**
-![Gramófono con música normal](GitImages/gramofono-normal.gif)
+![Gramófono con música normal](docs/gifs/gramophoneeeeeee.gif)
 
-> **Nota para el profesor (borrar):** Se debería ver el gramófono girando al mirarlo, con música tétrica normal. Al apartar la mirada y volver a mirar mientras suena, la música no se reinicia.
-
-* **Demostración en GIF (música especial):**
-![Gramófono con música especial tras recolectar los siete](GitImages/gramofono-especial.gif)
-
-> **Nota para el profesor (borrar):** Se debería ver el contador a 0 y el gramófono girando con la música especial. Hay que comprobar que se escucha el clip especial y no el normal.
+> **Sobre la música especial:** el GIF no captura audio, por lo que visualmente la animación del gramófono es idéntica en ambos casos (normal y especial). La diferencia entre un clip y otro se comprueba escuchando la demo en directo o revisando el código de `PlayMusic()`. Para la entrega se incluye un único GIF con la música normal, ya que el comportamiento visible (girar al mirar, no reiniciar, detenerse al terminar) es el mismo independientemente del clip reproducido.
 
 ### 9.4 Componente AudioSource
 
@@ -381,9 +373,7 @@ Al emitirse, los muñecos suscritos ejecutan `MoveTowardsPlayer()`, que activa l
 Como el Rigidbody es cinemático, el movimiento lo controla el script y no la física. Las dos funciones se ejecutan en el momento adecuado: el cálculo de la dirección en `Update()`, y el movimiento y la rotación en `FixedUpdate()`, a intervalos constantes.
 
 * **Demostración en GIF:**
-![Persecución de los One Eye Monster hacia el jugador](GitImages/persecucion-titan.gif)
-
-> **Nota para el profesor (borrar):** Se debería ver el titán al final del bosque. Al mirarlo durante tres segundos, los muñecos empiezan a moverse hacia el jugador, lo miran y se detienen a unos dos metros de él.
+![Persecución de los One Eye Monster hacia el jugador](docs/gifs/oemParan.gif)
 
 ---
 
