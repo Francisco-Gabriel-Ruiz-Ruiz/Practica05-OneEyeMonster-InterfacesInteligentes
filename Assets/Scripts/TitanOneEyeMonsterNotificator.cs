@@ -37,14 +37,18 @@ public class TitanOneEyeMonsterNotificator : MonoBehaviour
     }
 
     private IEnumerator ContadorGaze() {
-        Debug.Log(name + ": Mirada detectada. Esperando " + tiempoRequerido + " segundos...");
-        // Espera los 3 segundos de tiempo de juego
-        yield return new WaitForSeconds(tiempoRequerido);
-        Debug.Log(name + ": Mandando mensaje OnGaze()...");
-        // Invocación segura del evento verificando que tenga suscriptores
-        OnGaze();
-        hasGazedOnce = true;
-        // Limpiamos la referencia al finalizar
-        gazeCoroutine = null;
+        if (OnGaze != null) {
+            Debug.Log(name + ": Mirada detectada. Esperando " + tiempoRequerido + " segundos...");
+            // Espera los 3 segundos de tiempo de juego
+            yield return new WaitForSeconds(tiempoRequerido);
+            Debug.Log(name + ": Mandando mensaje OnGaze()...");
+            // Invocación segura del evento verificando que tenga suscriptores
+            OnGaze();
+            hasGazedOnce = true;
+            // Limpiamos la referencia al finalizar
+            gazeCoroutine = null;
+        } else {
+            Debug.Log(name + ": Mirada detectada. ¡Pero no hay nadie suscrito todavía!");
+        }
     }
 }
